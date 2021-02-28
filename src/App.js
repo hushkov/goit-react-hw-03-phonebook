@@ -21,6 +21,15 @@ class App extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const nextContacts = this.state.contacts;
+    const prevContacts = prevState.contacts;
+
+    if (nextContacts !== prevContacts) {
+      saveLocalStorage('contacts', nextContacts);
+    }
+  }
+
   addNewContact = submitData => {
     const { name, number } = submitData;
 
@@ -46,10 +55,6 @@ class App extends Component {
     this.setState(({ contacts }) => ({
       contacts: contacts.filter(({ id }) => id !== contactID),
     }));
-    const { contacts } = this.state;
-
-    const newList = contacts.filter(({ id }) => id !== contactID);
-    saveLocalStorage('contacts', newList);
   };
 
   handleFilter = eve => {
